@@ -1,4 +1,12 @@
-big_string1="""3267: 81 40 27
+big_string="""190: 10 19
+3267: 81 40 27
+83: 17 5
+156: 15 6
+7290: 6 8 6 15
+161011: 16 10 13
+192: 17 8 14
+21037: 9 7 18 13
+292: 11 6 16 20
 """
 
 from itertools import permutations
@@ -873,7 +881,7 @@ array_of_strings = big_string.split('\n')
 
 
 
-def generate_combinations_with_one_pipe(chars, length):
+"""def generate_combinations_with_one_pipe(chars, length):
     # Ensure there's always one '|' in the combination
     if '|' not in chars:
         chars.append('|')  # Ensure '|' is part of the available characters
@@ -894,7 +902,7 @@ def generate_combinations_with_one_pipe(chars, length):
 chars = ['|', '+', '*']
 #l = generate_combinations_with_one_pipe(chars, 8)
 #print (l)
-
+"""
 
 def insert_operators(operands, operator_string):
     # Result string that will hold operands and operators
@@ -942,21 +950,91 @@ def evaluate_custom_expression(eval_str):
     
     return result
 
+def generate_piped_list(input_string):
+    # List to store the results
+    result = []
+    
+    # Loop through every position in the string including the start and end
+    for i in range(len(input_string) + 1):
+        # Insert '|' at the current position
+        new_string = input_string[:i] + '|' + input_string[i:]
+        result.append(new_string)
+    
+    return result
+
+
+def isValidOriginal(sum, operands):
+    operations = len(operands)-1
+    permuations = 2**operations
+    #print(operands)
+
+    for i in range(0, permuations):
+        b = bin(i)[2:]  # [2:] removes the '0b' prefix
+        b = b.zfill(operations)
+        b = b.replace('0', '+')
+        b = b.replace('1', '*')
+        #print (b)
+
+        R = 0
+
+        for o in range(0, len(operands)-1):
+            #print(operands[o])
+            #print(operands[o+1])
+            if (b[o] == '+'):
+                if R==0:
+                    #print(f'{operands[o]}+{operands[o+1]}')
+                    R = operands[o] + operands[o+1]
+                else:
+                    #print(f'{R}+{operands[o+1]}')
+                    R = R + operands[o+1]
+                
+                #print(R)
+            else:
+                if R==0:
+                    R = (operands[o] * operands[o+1])
+                    #print(f'{operands[o]}*{operands[o+1]}')
+                else:
+                    #print(f'{R}*{operands[o+1]}')
+                    R = R * operands[o+1]
+                
+                #print(R)
+
+        if (R == sum):
+            return True
+    
+    return False
+
 def isValid(sum, operands):
     print(f'operands {operands}')
-    operations = len(operands)-1
+    operations = len(operands)-2
 
-    
-    list_o = generate_combinations_with_one_pipe(chars, operations)
+    permuations = 2**operations
+    #print(operands)
+    result = 0
 
-    eval_str = []
-    for operator in list_o:
-        eval_str = insert_operators(operands, operator)
-        #print (eval_str)
-        result = evaluate_custom_expression(eval_str)
-        #print(result)
-        if (result == sum):
-            return True
+    operators = []
+    for i in range(0, permuations):
+        b = bin(i)[2:]  # [2:] removes the '0b' prefix
+        b = b.zfill(operations)
+        b = b.replace('0', '+')
+        b = b.replace('1', '*')
+        operators.append(b)
+        eval_str = []
+        
+        for pos in range(len(b)):
+            result = generate_piped_list(b) 
+            #print(result)
+            for res in result:
+                char_list = list(res)
+                #print (char_list)
+                #print(char_list)
+                eval_str = insert_operators(operands, char_list)
+                #print(eval_str)
+                #print (eval_str)
+                result = evaluate_custom_expression(eval_str)
+                #print(result)
+                if (result == sum):
+                    return True
 
     return False
    
@@ -970,16 +1048,22 @@ for equation in array_of_strings:
         sum = int(left_right[0])
         operands_str = left_right[1].split(' ')
         operands_str.remove('')
-
-        if isValid(sum, operands_str):
-            print ('valid...........')
+        operands = []
+        
+        for operand in operands_str:
+            operands.append(int(operand))
+        
+        if isValidOriginal(sum, operands):
             Result = Result + sum
+
+        #if isValid(sum, operands_str):
+            #Result = Result + sum
         #else:
         #    print ('invalid')
 
         print ('--------')
     
-    print(Result)
+print(Result)
  
 
 

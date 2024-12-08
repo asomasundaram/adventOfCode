@@ -906,8 +906,10 @@ def isValid(sum, operands):
     
     return False
    
+import time
         
 Result = 0
+start_time = time.time()
 
 for equation in array_of_strings:
     print(equation)
@@ -928,5 +930,8 @@ for equation in array_of_strings:
 
         print ('--------')
  
+end_time = time.time()
+time_difference_ms = (end_time - start_time) * 1000
+print(f"Time difference: {time_difference_ms} milliseconds")
 
 print (Result)
