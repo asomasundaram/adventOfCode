@@ -139,23 +139,38 @@ XMAMSXSAMMSSMMMSMAMMSMAMAMAAXSXMASMMAMXAMMSAAAAMASMMAASAMSSSMMSAMAAAAASASAXSASXM
 XMASAXMASAAXAAAASASAAMAMASMSMMAMASAMASMAMXMMMMMSAMXMMMSXMAAAMAMAMMMMMMMAMAMSASMMAAAASMSAMAAAAASAMXMASMMMAXMSMSMMMXMASAAAMXAMXAMMSAMXSMSMSMSX
 SSMSAXSMMMSSSMSMSMSXSSMSASMMMSMMMSXMAXXAMMSAMXXMMSXXSAMXMMSMMASMMSAMXXMMMXMMAMMMMSMMMXSAMSSSMSSSXAASXXXSXSAXAMXSSXMASXSMMSASMXSASXMASMXXMAMA"""
 
+big_string1 = """MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX"""
 
-print (f'{len(big_string)}')
-chunk_size = 141
-array_of_strings = [big_string[i:i + chunk_size] for i in range(0, len(big_string), chunk_size)]
-print (f'size of array {len(array_of_strings)}')
+print('array_of_strings-------')
+
+array_of_strings = big_string.split('\n')
+print(array_of_strings)
 # Output the resulting array
+rows = len(array_of_strings)
+cols = len(array_of_strings[0])
+print(rows)
+print(cols)
 
+
+print('array_of_vertical_strings-------')
 array_of_vertical_strings = [""] * len(array_of_strings)
 for string in array_of_strings:
     for index in range(len(string)):
         if (string[index]!='\n'):
             array_of_vertical_strings[index] += string[index]
 
-rows = len(array_of_strings)
-cols = len(array_of_strings[0])
-print(rows)
-print(cols)
+print(array_of_vertical_strings)
+
+
 
 
 row_upper = 0
@@ -164,10 +179,10 @@ row_upper = 0
 row_no = 0
 col_no = 0
 
+
+
+print('array_of_diagonal_strings_ne_top-------')
 array_of_diagonal_strings_ne_top = [""] * len(array_of_strings)
-#print(array_of_strings[0])
-
-
 
 col_upper=0
 for row_no in range(rows):
@@ -179,21 +194,28 @@ for row_no in range(rows):
 
     
     col_upper += 1
-    #print(array_of_diagonal_strings_ne_top[row_no] )
+    print(array_of_diagonal_strings_ne_top[row_no])
+
+
+
+print('array_of_diagonal_strings_ne_bot---------')
 
 col_lower = 1
 array_of_diagonal_strings_ne_bot = [""] * len(array_of_strings)
 for row_no in range(rows-1, -1, -1):
-    current_row = row_no
-    for current_col in range (col_lower, current_row):
+    current_row = cols-1
+    for current_col in range (col_lower, cols):
         #print (f'{current_row}: {current_col}')
         array_of_diagonal_strings_ne_bot[row_no] += array_of_strings[current_row][current_col]
         current_row -= 1
+    
+    print(array_of_diagonal_strings_ne_bot[row_no])
 
     col_lower += 1
-    #print(array_of_diagonal_strings_ne_bot[row_no] )
 
 
+
+print('array_of_diagonal_strings_se_bot---------')
 
 array_of_diagonal_strings_se_bot = [""] * len(array_of_strings)
 
@@ -206,23 +228,25 @@ for row_no in range(rows-1, -1, -1):
         current_row += 1
     
     col_upper += 1
-    #print(array_of_diagonal_strings_se_bot[row_no] )
+    print(array_of_diagonal_strings_se_bot[row_no] )
 
 
 array_of_diagonal_strings_se_top = [""] * len(array_of_strings)
 
 
+print('array_of_diagonal_strings_se_top----------')
+
 col_lower = 1
-for row_no in range(rows):
-    current_row = row_no
-    for current_col in range(col_lower, cols-1):
-        #print (f'{current_row}: {current_col}')
+for row_no in range(rows-1):
+    current_row = 0
+    for current_col in range(col_lower, cols):
         array_of_diagonal_strings_se_top[row_no] += array_of_strings[current_row][current_col]
         current_row += 1
 
     
     col_lower += 1
-    #print(array_of_diagonal_strings_se_top[row_no] )
+    print(array_of_diagonal_strings_se_top[row_no] )
+
 
 count = 0
 
@@ -237,10 +261,15 @@ def getCount(arrayOfStrings):
 
 
 count = getCount(array_of_strings)
+print(count)
 count += getCount(array_of_vertical_strings)
+print(count)
 count += getCount(array_of_diagonal_strings_ne_top)
+print(count)
 count += getCount(array_of_diagonal_strings_ne_bot)
-count += getCount(array_of_diagonal_strings_se_top)
+print(count)
+count += getCount(array_of_diagonal_strings_se_top) 
+print(count)
 count += getCount(array_of_diagonal_strings_se_bot)
 
 print (count)

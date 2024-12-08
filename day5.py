@@ -1176,6 +1176,8 @@ data = """45|19
 52|54
 11|19"""
 
+
+
 page_order="""
 56,79,55,52,85,41,61,97,64,72,86,46,58,48,96,62,76,12,13
 16,95,77,51,17,49,33,56,97
@@ -1354,6 +1356,7 @@ page_order="""
 28,49,56,61,13,48,86,81,58,76,46
 """
 
+
 chunk_size = 5
 
 # Initialize an array of arrays with size 100
@@ -1381,8 +1384,8 @@ for rule in array_of_strings:
     value = int(rules[1])
     array_of_arrays[index].append(value)
 
-for array in array_of_arrays:
-    print (array)
+#for array in array_of_arrays:
+#    print (array)
 
 page_orders = page_order.split('\n')
 check_sum = 0 
@@ -1398,19 +1401,23 @@ for page in page_orders:
         page_number = int(page_numbers[i])
         page_number_next = int(page_numbers[i+1])
         #print (array_of_arrays[page_number])
+        print (page_number)
+        print (page_number_next)
+        print (array_of_arrays[page_number])
 
         if (page_number_next not in array_of_arrays[page_number]):
             #print (page_number)
             #print (page_number_next)
+
             valid = False
             break
     
-        break
 
     if (valid):
         print (f'page rule {page} is valid')
         mid = int(len(page_numbers)/2)
         check_sum += int(page_numbers[mid])
+        print (check_sum)
     else:
         print (f'page rule {page} is INVALID')
 
